@@ -176,13 +176,7 @@ jobs:
         with:
           repository: 'MINGERTAI/MyALL'  # 目标仓库名
           token: ${{ secrets.GH_TOKEN }}  # 使用访问令牌
-          path: 'TVBox'
-
-          
-      - name: 列出文件
-        run: |
-          pwd
-          ls -la   
+          path: 'TVBox' 
       - name: 创建目标文件夹
         run: |
           mkdir -p ./TVBox/Release/tvapk
@@ -192,9 +186,9 @@ jobs:
           pwd
           ls -la   
 
-    - name: 复制 APK 到目标文件夹
-      run: |
-        cp ./tv/app/build/outputs/apk/*/release/*.apk ./TVBox/Release/tvapk/
+      - name: 复制 APK 到目标文件夹
+        run: |
+          cp ./tv/app/build/outputs/apk/*/release/*.apk ./TVBox/Release/tvapk/
 
       - name: 推送 APK 到目标仓库
         run: |
