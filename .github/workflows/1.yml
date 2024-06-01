@@ -141,19 +141,19 @@ jobs:
  
       - name: 发布信息
         run: |
-          echo -e "🎈 编译时间：${{ env.tag }}\\n\\n⏰ 编译用时：${{ env.BUILD_TIME }}\\n\\n★ 源码分支：${{ inputs.user_godown }} - ${{ inputs.source_branch }} v${{ env.VERSION }}\\n\\n--- " >> ${{ github.workspace }}-CHANGELOG.txt
+          echo -e "🎈 编译时间：${{ env.tag }}\n\n⏰ 编译用时：${{ env.BUILD_TIME }}\n\n★ 源码分支：${{ inputs.user_godown }} - ${{ inputs.source_branch }} v${{ env.VERSION }}\n\n--- " >> ${{ github.workspace }}-CHANGELOG.txt
           echo -e "<details><summary>TV版升级信息</summary>" >> ${{ github.workspace }}-CHANGELOG.txt
           if [ "${{ inputs.source_branch }}" == "release" ]; then
-            echo "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/leanback.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG.txt
-            echo "</details>\\n\\n<details><summary>移动版升级信息</summary>" >> ${{ github.workspace }}-CHANGELOG.txt
-            echo "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/mobile.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG.txt
-            echo "</details>" >> ${{ github.workspace }}-CHANGELOG.txt
+            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/leanback.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG.txt
+            echo -e "\n</details>\n\n<details><summary>移动版升级信息</summary>" >> ${{ github.workspace }}-CHANGELOG.txt
+            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/mobile.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG.txt
+            echo -e "</details>" >> ${{ github.workspace }}-CHANGELOG.txt
 
           elif [ "${{ inputs.source_branch }}" == "fongmi" ]; then
-            echo "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/leanback.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG.txt
-            echo "</details>\\n\\n<details><summary>移动版升级信息</summary>" >> ${{ github.workspace }}-CHANGELOG.txt
-            echo "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/mobile.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG.txt
-            echo "</details>" >> ${{ github.workspace }}-CHANGELOG.txt
+            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/leanback.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG.txt
+            echo -e "\n</details>\n\n<details><summary>移动版升级信息</summary>" >> ${{ github.workspace }}-CHANGELOG.txt
+            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/mobile.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG.txt
+            echo -e "</details>" >> ${{ github.workspace }}-CHANGELOG.txt
           else
             echo '没有匹配退出写CHANGELOG.txt'
           fi
