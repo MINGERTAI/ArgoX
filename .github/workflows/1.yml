@@ -180,7 +180,7 @@ jobs:
 
       - name: 移动 APK 到指定文件夹
         run: |
-          mkdir -p main/Release/tvapk
+          mkdir -p Release/tvapk
           cp ./tv/app/build/outputs/apk/*/release/*.apk main/Release/tvapk/
           cp ${GITHUB_WORKSPACE}/CHANGELOG.txt main/Release/tvapk/Release.md
 
