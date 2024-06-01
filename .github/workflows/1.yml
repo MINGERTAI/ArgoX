@@ -183,10 +183,18 @@ jobs:
         run: |
           pwd
           ls -la   
-      - name: 移动 APK 到指定文件夹
+      - name: 创建目标文件夹
         run: |
-          mkdir -p Release/tvapk
-          cp ./tv/app/build/outputs/apk/*/release/*.apk ./TVBox/Release/tvapk/
+          mkdir -p ./TVBox/Release/tvapk
+
+      - name: 列出文件
+        run: |
+          pwd
+          ls -la   
+
+    - name: 复制 APK 到目标文件夹
+      run: |
+        cp ./tv/app/build/outputs/apk/*/release/*.apk ./TVBox/Release/tvapk/
 
       - name: 推送 APK 到目标仓库
         run: |
