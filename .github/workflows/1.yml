@@ -186,7 +186,7 @@ jobs:
       - name: 移动 APK 到指定文件夹
         run: |
           mkdir -p Release/tvapk
-          cp ./tv/app/build/outputs/apk/*/release/*.apk Release/tvapk/
+          cp ./tv/app/build/outputs/apk/*/release/*.apk ./TVBox/Release/tvapk/
 
       - name: 推送 APK 到目标仓库
         run: |
