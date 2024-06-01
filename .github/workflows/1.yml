@@ -178,17 +178,16 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}  # 使用访问令牌
           path: 'TVBox'
 
-      - name: 移动 APK 到指定文件夹
-        run: |
-          cd TVBox
-          mkdir -p Release/tvapk
-          cp ./tv/app/build/outputs/apk/*/release/*.apk main/Release/tvapk/
-          cp ${GITHUB_WORKSPACE}/CHANGELOG.txt main/Release/tvapk/Release.md
           
       - name: 列出文件
         run: |
           pwd
-          ls -la     
+          ls -la   
+      - name: 移动 APK 到指定文件夹
+        run: |
+          mkdir -p Release/tvapk
+          cp ./tv/app/build/outputs/apk/*/release/*.apk Release/tvapk/
+          cp ${GITHUB_WORKSPACE}/CHANGELOG.txt Release/tvapk/Release.md  
 
       - name: 推送 APK 到目标仓库
         run: |
