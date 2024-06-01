@@ -122,26 +122,6 @@ jobs:
           SECONDS=$((END_SECONDS-START_SECONDS))
           HOUR=$(( $SECONDS/3600 )) && MIN=$(( ($SECONDS-${HOUR}*3600)/60 )) && SEC=$(( $SECONDS-${HOUR}*3600-${MIN}*60 ))
           echo "BUILD_TIME=${HOUR}时${MIN}分${SEC}秒" >> $GITHUB_ENV
-          find tv/app/build/outputs/apk/ -name '*.apk' -exec echo {} \;
- 
-      - name: 发布信息
-        run: |
-          echo -e "🎈 编译时间：${{ env.tag }}\n\n⏰ 编译用时：${{ env.BUILD_TIME }}\n\n★ 源码分支：${{ inputs.user_godown }} - ${{ inputs.source_branch }} v${{ env.VERSION }}\n\n--- " >> ${{ github.workspace }}-CHANGELOG.txt
-          echo -e "<details><summary>TV版升级信息</summary>" >> ${{ github.workspace }}-CHANGELOG.txt
-          if [ "${{ inputs.source_branch }}" == "release" ]; then
-            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/leanback.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG.txt
-            echo -e "\n</details>\n\n<details><summary>移动版升级信息</summary>" >> ${{ github.workspace }}-CHANGELOG.txt
-            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/mobile.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG.txt
-            echo -e "</details>" >> ${{ github.workspace }}-CHANGELOG.txt
-
-          elif [ "${{ inputs.source_branch }}" == "fongmi" ]; then
-            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/leanback.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG.txt
-            echo -e "\n</details>\n\n<details><summary>移动版升级信息</summary>" >> ${{ github.workspace }}-CHANGELOG.txt
-            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/mobile.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG.txt
-            echo -e "</details>" >> ${{ github.workspace }}-CHANGELOG.txt
-          else
-            echo '没有匹配退出写CHANGELOG.txt'
-          fi
 
       - name: 检出目标仓库
         uses: actions/checkout@v4
@@ -157,11 +137,10 @@ jobs:
         run: |
           rm -rf ./tvbox/Release/Mobile/*.*
           cp ./tv/app/build/outputs/apk/*/release/*.apk ./tvbox/Release/Mobile/
-          cp .${{ github.workspace }}-CHANGELOG.txt ./tvbox/Release/Mobile/Release.md
 
       - name: 推送 APK 到目标仓库
         run: |
-          cd tvbox
+          cd tvbox/Release/Mobile
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
@@ -257,25 +236,6 @@ jobs:
           SECONDS=$((END_SECONDS-START_SECONDS))
           HOUR=$(( $SECONDS/3600 )) && MIN=$(( ($SECONDS-${HOUR}*3600)/60 )) && SEC=$(( $SECONDS-${HOUR}*3600-${MIN}*60 ))
           echo "BUILD_TIME=${HOUR}时${MIN}分${SEC}秒" >> $GITHUB_ENV
- 
-      - name: 发布信息
-        run: |
-          echo -e "支持x5内核\n\n🎈 编译时间：${{ env.tag }}\n\n⏰ 编译用时：${{ env.BUILD_TIME }}\n\n★ 源码分支：${{ inputs.user_godown }} - ${{ inputs.source_branch }} v${{ env.VERSION }}\n\n--- " >> ${{ github.workspace }}-CHANGELOG1.txt
-          echo -e "<details><summary>TV版升级信息</summary>" >> ${{ github.workspace }}-CHANGELOG1.txt
-          if [ "${{ inputs.source_branch }}" == "release" ]; then
-            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/leanback.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG1.txt
-            echo -e "\n</details>\n\n<details><summary>移动版升级信息</summary>" >> ${{ github.workspace }}-CHANGELOG.txt
-            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/mobile.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG1.txt
-            echo -e "</details>" >> ${{ github.workspace }}-CHANGELOG1.txt
-
-          elif [ "${{ inputs.source_branch }}" == "fongmi" ]; then
-            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/leanback.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG1.txt
-            echo -e "\n</details>\n\n<details><summary>移动版升级信息</summary>" >> ${{ github.workspace }}-CHANGELOG.txt
-            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/mobile.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG1.txt
-            echo -e "</details>" >> ${{ github.workspace }}-CHANGELOG1.txt
-          else
-            echo '没有匹配退出写CHANGELOG1.txt'
-          fi
 
       - name: 检出目标仓库
         uses: actions/checkout@v4
@@ -291,11 +251,10 @@ jobs:
         run: |
           rm -rf ./tvbox/Release/television/
           cp ./tv1/app/build/outputs/apk/*/release/*.apk ./tvbox/Release/television/
-          cp .${{ github.workspace }}-CHANGELOG1.txt ./tvbox/Release/television/Release.md
 
       - name: 推送 APK 到目标仓库
         run: |
-          cd tvbox
+          cd tvbox/Release/television
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
