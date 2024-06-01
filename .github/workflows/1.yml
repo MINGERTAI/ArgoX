@@ -157,10 +157,6 @@ jobs:
           else
             echo '没有匹配退出写CHANGELOG.txt'
           fi
-      - name: 列出文件
-        run: |
-          pwd
-          ls -la ${GITHUB_WORKSPACE}
       - name: 上传到发布
         uses: softprops/action-gh-release@v2
         with:
@@ -176,23 +172,19 @@ jobs:
         with:
           repository: 'MINGERTAI/MyALL'  # 目标仓库名
           token: ${{ secrets.GH_TOKEN }}  # 使用访问令牌
-          path: 'TVBox' 
+          path: 'main' 
       - name: 创建目标文件夹
         run: |
-          mkdir -p ./TVBox/Release/tvapk
-
-      - name: 列出文件
-        run: |
-          pwd
-          ls -la   
+          mkdir -p ./main/Release/tvapk
 
       - name: 复制 APK 到目标文件夹
         run: |
-          cp ./tv/app/build/outputs/apk/*/release/*.apk ./TVBox/Release/tvapk/
+          cp ./tv/app/build/outputs/apk/*/release/*.apk ./main/Release/tvapk/
+          cp .${{ github.workspace }}-CHANGELOG.txt ./main/Release/tvapk/Release.md
 
       - name: 推送 APK 到目标仓库
         run: |
-          cd TVBox
+          cd main
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
