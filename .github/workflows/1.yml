@@ -157,6 +157,7 @@ jobs:
           else
             echo '没有匹配退出写CHANGELOG.txt'
           fi
+
       - name: 上传到发布
         uses: softprops/action-gh-release@v2
         with:
@@ -170,12 +171,12 @@ jobs:
       - name: 检出目标仓库
         uses: actions/checkout@v4
         with:
-          repository: 'MINGERTAI/MyALL'  # 目标仓库名
+          repository: 'MINGERTAI/MyALL'  # 目标用户名/仓库名
           token: ${{ secrets.GH_TOKEN }}  # 使用访问令牌
           path: 'main' 
       - name: 创建目标文件夹
         run: |
-          mkdir -p ./main/Release/tvapk
+          mkdir -p ./main/Release/tvapk  # 目标用户名/仓库名/创建文件夹，Release/tvapk
 
       - name: 复制 APK 到目标文件夹
         run: |
