@@ -148,20 +148,20 @@ jobs:
         with:
           repository: 'MINGERTAI/MyALL'  # 目标仓库名
           token: ${{ secrets.GH_TOKEN }}  # 使用访问令牌
-          path: 'main' 
+          path: 'tvbox' 
       - name: 创建目标文件夹
         run: |
-          mkdir -p ./main/Release/Mobile
+          mkdir -p ./tvbox/Release/Mobile
 
       - name: 复制 APK 到目标文件夹
         run: |
-          rm -rf ./main/Release/Mobile/*.*
-          cp ./tv/app/build/outputs/apk/*/release/*.apk ./main/Release/Mobile/
-          cp .${{ github.workspace }}-CHANGELOG.txt ./main/Release/Mobile/Release.md
+          rm -rf ./tvbox/Release/Mobile/*.*
+          cp ./tv/app/build/outputs/apk/*/release/*.apk ./tvbox/Release/Mobile/
+          cp .${{ github.workspace }}-CHANGELOG.txt ./tvbox/Release/Mobile/Release.md
 
       - name: 推送 APK 到目标仓库
         run: |
-          cd main
+          cd tvbox
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
@@ -282,20 +282,20 @@ jobs:
         with:
           repository: 'MINGERTAI/MyALL'  # 目标仓库名
           token: ${{ secrets.GH_TOKEN }}  # 使用访问令牌
-          path: 'main' 
+          path: 'tvbox' 
       - name: 创建目标文件夹
         run: |
-          mkdir -p ./main/Release/television
+          mkdir -p ./tvbox/Release/television
 
       - name: 复制 APK 到目标文件夹
         run: |
-          rm -rf ./main/Release/television/
-          cp ./tv1/app/build/outputs/apk/*/release/*.apk ./main/Release/television/
-          cp .${{ github.workspace }}-CHANGELOG1.txt ./main/Release/television/Release.md
+          rm -rf ./tvbox/Release/television/
+          cp ./tv1/app/build/outputs/apk/*/release/*.apk ./tvbox/Release/television/
+          cp .${{ github.workspace }}-CHANGELOG1.txt ./tvbox/Release/television/Release.md
 
       - name: 推送 APK 到目标仓库
         run: |
-          cd main
+          cd tvbox
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
