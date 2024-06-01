@@ -175,7 +175,7 @@ jobs:
 
 ###
 
-  build_2:
+  build_1:
     name: framework:${{ matrix.television}})
     runs-on: ubuntu-latest
     env:
@@ -211,11 +211,11 @@ jobs:
         with:
           repository: ${{ inputs.user_godown }}
           ref: ${{ inputs.source_branch }}
-          path: tv
+          path: tv1
 
       - name: 添加编译PY
         if: contains(env.GRADLE_TASKS, matrix.framework)
-        working-directory: tv
+        working-directory: tv1
         run: |
           sed -i '/proguardFiles getDefaultProguardFile/a\            signingConfig signingConfigs.debug' app/build.gradle
           sed -i '/ijkplayer/a\    implementation project('\'':pyramid'\'')' app/build.gradle
@@ -225,7 +225,7 @@ jobs:
           echo '添加编译PY完成'
 
       - name: diy
-        working-directory: tv
+        working-directory: tv1
         run: |
           sed -i 's/versionCode [0-9]*\.[0-9]*\.[0-9]*/versionCode ${{ env.codeteme }}/g' app/build.gradle
           echo 'versionCode更改完成'
@@ -244,7 +244,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
         
       - name: 用 Gradle 构建 apk
-        working-directory: tv
+        working-directory: tv1
         run: |
           bash gradlew ${{ matrix.television}}
  
@@ -260,21 +260,21 @@ jobs:
  
       - name: 发布信息
         run: |
-          echo -e "支持x5内核\n\n🎈 编译时间：${{ env.tag }}\n\n⏰ 编译用时：${{ env.BUILD_TIME }}\n\n★ 源码分支：${{ inputs.user_godown }} - ${{ inputs.source_branch }} v${{ env.VERSION }}\n\n--- " >> ${{ github.workspace }}-CHANGELOG.txt
-          echo -e "<details><summary>TV版升级信息</summary>" >> ${{ github.workspace }}-CHANGELOG.txt
+          echo -e "支持x5内核\n\n🎈 编译时间：${{ env.tag }}\n\n⏰ 编译用时：${{ env.BUILD_TIME }}\n\n★ 源码分支：${{ inputs.user_godown }} - ${{ inputs.source_branch }} v${{ env.VERSION }}\n\n--- " >> ${{ github.workspace }}-CHANGELOG1.txt
+          echo -e "<details><summary>TV版升级信息</summary>" >> ${{ github.workspace }}-CHANGELOG1.txt
           if [ "${{ inputs.source_branch }}" == "release" ]; then
-            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/leanback.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG.txt
+            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/leanback.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG1.txt
             echo -e "\n</details>\n\n<details><summary>移动版升级信息</summary>" >> ${{ github.workspace }}-CHANGELOG.txt
-            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/mobile.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG.txt
-            echo -e "</details>" >> ${{ github.workspace }}-CHANGELOG.txt
+            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/mobile.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG1.txt
+            echo -e "</details>" >> ${{ github.workspace }}-CHANGELOG1.txt
 
           elif [ "${{ inputs.source_branch }}" == "fongmi" ]; then
-            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/leanback.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG.txt
+            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/leanback.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG1.txt
             echo -e "\n</details>\n\n<details><summary>移动版升级信息</summary>" >> ${{ github.workspace }}-CHANGELOG.txt
-            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/mobile.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG.txt
-            echo -e "</details>" >> ${{ github.workspace }}-CHANGELOG.txt
+            echo -e "$(curl -s 'https://raw.githubusercontent.com/FongMi/Release/main/apk/release/mobile.json' | jq -r '.desc')" >> ${{ github.workspace }}-CHANGELOG1.txt
+            echo -e "</details>" >> ${{ github.workspace }}-CHANGELOG1.txt
           else
-            echo '没有匹配退出写CHANGELOG.txt'
+            echo '没有匹配退出写CHANGELOG1.txt'
           fi
 
       - name: 检出目标仓库
@@ -290,8 +290,8 @@ jobs:
       - name: 复制 APK 到目标文件夹
         run: |
           rm -rf ./main/Release/television/
-          cp ./tv/app/build/outputs/apk/*/release/*.apk ./main/Release/television/
-          cp .${{ github.workspace }}-CHANGELOG.txt ./main/Release/television/Release.md
+          cp ./tv1/app/build/outputs/apk/*/release/*.apk ./main/Release/television/
+          cp .${{ github.workspace }}-CHANGELOG1.txt ./main/Release/television/Release.md
 
       - name: 推送 APK 到目标仓库
         run: |
