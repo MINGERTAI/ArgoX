@@ -1,15 +1,7 @@
-name: FongMi
+name: FongMi All
 on:
   workflow_dispatch:
     inputs:
-      x5kernel:
-        description: "默认不支持x5"
-        required: false
-        default: "NoAddx5kernel"
-        type: choice
-        options:
-          - NoAddx5kernel
-          - Addx5kernel
       user_godown:
         description: "选择 TV 源分支"
         required: false
