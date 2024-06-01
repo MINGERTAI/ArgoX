@@ -157,7 +157,10 @@ jobs:
           else
             echo '没有匹配退出写CHANGELOG.txt'
           fi
- 
+      - name: 列出文件
+        run: |
+          pwd
+          ls -la ${GITHUB_WORKSPACE}
       - name: 上传到发布
         uses: softprops/action-gh-release@v2
         with:
