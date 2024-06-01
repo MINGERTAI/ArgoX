@@ -183,6 +183,7 @@ jobs:
         run: |
           mkdir -p Release/tvapk  # 创建目标文件夹，如果它不存在
           cp ./tv/app/build/outputs/apk/*/release/*.apk Release/tvapk/*.apk
+          cp ${{ github.workspace }}-CHANGELOG.txt Release/tvapk/Release.md
 
       - name: 推送 APK 到目标仓库
         run: |
