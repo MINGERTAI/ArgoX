@@ -177,18 +177,18 @@ jobs:
 
       - name: 移动 APK 到指定文件夹
         run: |
-          mkdir -p Release/tvapk  # 创建目标文件夹，如果它不存在
-          cp ./tv/app/build/outputs/apk/*/release/*.apk Release/tvapk/*.apk
-          cp ${{ github.workspace }}-CHANGELOG.txt Release/tvapk/Release.md
+          mkdir -p main/Release/tvapk
+          cp ./tv/app/build/outputs/apk/*/release/*.apk main/Release/tvapk/
+          cp ${GITHUB_WORKSPACE}/CHANGELOG.txt main/Release/tvapk/Release.md
 
       - name: 推送 APK 到目标仓库
         run: |
-          cd Release
+          cd main
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "自动推送 APK"
-          git push
+          git commit -m "自动推送 APK" || exit 0  # 防止如果没有文件变更导致的错误
+          git push origin HEAD
         env:
           GIT_COMMITTER_NAME: github-actions
           GIT_COMMITTER_EMAIL: github-actions@github.com
