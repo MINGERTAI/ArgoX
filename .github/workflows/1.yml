@@ -187,7 +187,6 @@ jobs:
         run: |
           mkdir -p Release/tvapk
           cp ./tv/app/build/outputs/apk/*/release/*.apk Release/tvapk/
-          cp ${GITHUB_WORKSPACE}/CHANGELOG.txt Release/tvapk/Release.md  
 
       - name: 推送 APK 到目标仓库
         run: |
