@@ -186,7 +186,7 @@ jobs:
 
       - name: 推送 APK 到目标仓库
         run: |
-          cd targetRepo
+          cd Release
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
